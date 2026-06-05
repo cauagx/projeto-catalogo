@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Itens</title>
+    <style>
+        body {font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px;}
+        .catalogo {display: flex; gap: 20px; flex-wrap: wrap;}
+        .item {background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;}
+        .preço { color: green; font-weight: bold; font-size: 1.2em;}
+    </style>
+</head>
+<body>
+    <h1>Catálogo de Produtos</h1>
+    <div class="catalogo" id="lista-itens">Carregando Itens...</div>
+
+    <script>
+        //busca os dados do backend via API
+        fetch('/api/itens')
+          .then(response => response.json())
+          .then(itens => {
+            const container = document.getElementById('lista-itens');
+            container.innerHTML = '';
+
+            itens.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `
+                <h3>${item.nome}</h3>
+                <p class="preço">R$ ${item.preço.toFixed(2)}</p>
+                `;
+                container.appendChild(div);
+            })
+          })
+    </script>
+</body>
+</html>
